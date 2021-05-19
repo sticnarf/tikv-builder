@@ -1,2 +1,14 @@
-docker_builder:
-  build_script: docker build --tag sticnarf/tikv-builder:latest .
+compute_engine_instance:
+  image_project: cirrus-images
+  image: family/docker-builder
+  platform: linux
+  cpu: 8
+  memory: 16G
+
+task:
+  env:
+    DOCKER_USERNAME: ENCRYPTED[f83c9efa187b185425afc4ea5c077f69aa070e378da9b6c83f39dcbd3cdbbdebb4bccf870f31a3b625b59aa61f3e0226]
+    DOCKER_PASSWORD: ENCRYPTED[372baa82d54b6d259ce8dfff4d650b8f40a94960eba6c9827cedc91fe3bc8019cc066f86ce200cfc72ac55dc07affe2f]
+  build_script: docker build --tag sticnarf/clang12:latest .
+  login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+  push_script: docker push sticnarf/clang12:latest
